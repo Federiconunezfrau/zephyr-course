@@ -5,7 +5,6 @@ menu "Configuracion de la aplicación"
         default y
 
     if LED_SUBSYSTEM
-
         choice
             prompt "LED blink sleep time"
             default BLINK_SLEEP_TIME_1000_MS
@@ -35,7 +34,6 @@ menu "Configuracion de la aplicación"
             default n
 
         if ADVANCED_LED_SETTINGS
-
             config LED_BRIGHTNESS
                 int "LED brightness (0-100)"
                 range 0 100
@@ -46,17 +44,26 @@ menu "Configuracion de la aplicación"
                 range 0 5000
                 default 500
 
-        endif
+            config LED_EXPERT_SETTINGS
+                bool
+                default y
 
-        
+            menu "Expert settings"
+                visible if LED_EXPERT_SETTINGS
 
-    endif
+                config LED_DEBUG
+                    bool "Enable LED debugging"
+                    default n
 
-endmenu
+                config LED_CUSTOM_BLINK_PATTERN
+                    bool "Custom blink pattern"
+                    default n
+            endmenu #Expert settings
+        endif #ADVANCED_LED_SETTINGS
+    endif #LED_SUBSYSTEM
+endmenu #Configuracion de la aplicación
 
 
 menu "Configuracion de Zephyr"
-
     source "Kconfig.zephyr"
-
 endmenu
