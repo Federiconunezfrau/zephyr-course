@@ -1,0 +1,43 @@
+menu "Configuracion de la aplicación"
+
+    menuconfig LED_SUBSYSTEM
+        bool "LED Subsystem"
+        default y
+
+
+    if LED_SUBSYSTEM
+
+        choice
+            prompt "LED blink sleep time"
+            default BLINK_SLEEP_TIME_1000_MS
+
+            config BLINK_SLEEP_TIME_250_MS
+                bool "250 ms (very fast)"
+
+            config BLINK_SLEEP_TIME_500_MS
+                bool "500 ms (fast)"
+
+            config BLINK_SLEEP_TIME_1000_MS
+                bool "1s (medium)"
+            
+            config BLINK_SLEEP_TIME_2000_MS
+                bool "2s (slow)"
+        endchoice
+
+        config LED_BLINK_SLEEP_TIME
+            int
+            default 250 if BLINK_SLEEP_TIME_250_MS
+            default 500 if BLINK_SLEEP_TIME_500_MS
+            default 1000 if BLINK_SLEEP_TIME_1000_MS
+            default 2000 if BLINK_SLEEP_TIME_2000_MS
+
+    endif
+
+endmenu
+
+
+menu "Configuracion de Zephyr"
+
+    source "Kconfig.zephyr"
+
+endmenu
