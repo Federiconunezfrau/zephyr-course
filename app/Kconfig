@@ -4,7 +4,6 @@ menu "Configuracion de la aplicación"
         bool "LED Subsystem"
         default y
 
-
     if LED_SUBSYSTEM
 
         choice
@@ -30,6 +29,26 @@ menu "Configuracion de la aplicación"
             default 500 if BLINK_SLEEP_TIME_500_MS
             default 1000 if BLINK_SLEEP_TIME_1000_MS
             default 2000 if BLINK_SLEEP_TIME_2000_MS
+        
+        menuconfig ADVANCED_LED_SETTINGS
+            bool "Advanced LED settings"
+            default n
+
+        if ADVANCED_LED_SETTINGS
+
+            config LED_BRIGHTNESS
+                int "LED brightness (0-100)"
+                range 0 100
+                default 100
+
+            config LED_FADE_DURATION
+                int "LED fade duration (ms)"
+                range 0 5000
+                default 500
+
+        endif
+
+        
 
     endif
 
