@@ -1,5 +1,10 @@
 menu "Configuracion de la aplicación"
 
+    config APP_HEARTBEAT_PERIOD_MS
+        int "LED heartbeat period (100-2000)"
+        range 100 2000
+        default 500
+
     menuconfig LED_SUBSYSTEM
         bool "LED Subsystem"
         default y
