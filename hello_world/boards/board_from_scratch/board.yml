@@ -1,0 +1,6 @@
+board:
+  name: board_from_scratch
+  full_name: Board Created from Scratch
+  vendor: me
+  socs:
+    - name: stm32f103xb
