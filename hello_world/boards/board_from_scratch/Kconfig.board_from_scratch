@@ -1,0 +1,2 @@
+config BOARD_FROM_SCRATCH
+	select SOC_STM32F103XB
