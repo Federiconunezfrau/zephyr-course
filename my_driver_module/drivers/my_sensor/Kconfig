@@ -1,0 +1,7 @@
+menuconfig CONFIG_MY_SENSOR
+	bool "Enable my_sensor driver"
+	default y
+	select GPIO
+    depends on DT_HAS_MY_SENSOR_ENABLED
+	help
+	  Enables the my_sensor driver
