@@ -46,6 +46,7 @@ static int my_sensor_init(const struct device *dev) {
 		return -ENODEV;
 	}
     gpio_pin_configure_dt(&(cfg->m_gpio));
+    gpio_pin_set_dt(&(cfg->m_gpio), 1);
 
     return 0;
 }
