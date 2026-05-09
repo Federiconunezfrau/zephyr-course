@@ -1,0 +1,9 @@
+description: This is my driver's binding file
+compatible: my,sensor
+include: sensor-device.yaml
+
+properties:
+  gpio:
+    type: phandle
+    required: true
+    description: GPIO for driving the LED
