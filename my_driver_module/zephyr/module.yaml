@@ -1,0 +1,6 @@
+name: my_sensor
+build:
+  kconfig: Kconfig
+  cmake: .
+  settings:
+    dts_root: .

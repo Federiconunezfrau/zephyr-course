@@ -1,9 +1,9 @@
 description: This is my driver's binding file
-compatible: my,sensor
-include: sensor-device.yaml
+compatible: "zephyr,my_sensor"
+include: base.yaml
 
 properties:
-  gpio:
-    type: phandle
+  gpios:
+    type: phandle-array
     required: true
     description: GPIO for driving the LED

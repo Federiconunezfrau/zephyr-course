@@ -1,7 +1,7 @@
-menuconfig CONFIG_MY_SENSOR
+menuconfig MY_SENSOR
 	bool "Enable my_sensor driver"
 	default y
 	select GPIO
-    depends on DT_HAS_MY_SENSOR_ENABLED
+    depends on DT_HAS_ZEPHYR_MY_SENSOR_ENABLED
 	help
 	  Enables the my_sensor driver
