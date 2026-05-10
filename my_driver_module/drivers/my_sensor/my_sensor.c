@@ -7,9 +7,9 @@
 #include <my_sensor.h>
 
 // Habilita el uso de las macros tipo DT_INST_ para referernciar nodos con este compatible 
-#define DT_DRV_COMPAT my_sensor
+#define DT_DRV_COMPAT zephyr_my_sensor
 
-LOG_MODULE_REGISTER(my_sensor, LOG_LEVEL_INF);
+LOG_MODULE_REGISTER(zephyr_my_sensor, LOG_LEVEL_INF);
 
 // 1) Se crea la estructura de configuración estática del driver
 struct my_sensor_config {
@@ -78,7 +78,7 @@ static int my_sensor_channel_get(const struct device *dev, enum sensor_channel c
 #define MY_SENSOR_DEFINE(inst)                                      \
 static struct my_sensor_data my_sensor_data##inst;               \
 static const struct my_sensor_config my_sensor_config##inst = { \
-    .m_gpio = GPIO_DT_SPEC_INST_GET(inst, gpio),                        \
+    .m_gpio = GPIO_DT_SPEC_INST_GET(inst, gpios),                        \
 };
 
 // inst: instance number

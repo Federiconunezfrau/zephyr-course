@@ -15,17 +15,8 @@
 	};
 
 	sensor: led_sensor {
-		compatible = "my,sensor";
-		gpio = <&gpioa 5 GPIO_ACTIVE_HIGH>;
-	};
-
-	leds: leds {
-		compatible = "gpio-leds";
-
-		green_led_2: led_2 {
-			gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>;
-			label = "User LD2";
-		};
+		compatible = "zephyr,my_sensor";
+		gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>;
 	};
 
 	gpio_keys {
@@ -39,7 +30,6 @@
 	};
 
 	aliases {
-		led0 = &green_led_2;
 		sw0 = &user_button;
 		watchdog0 = &iwdg;
 		die-temp0 = &die_temp;
