@@ -14,6 +14,11 @@
 		zephyr,flash = &flash0;
 	};
 
+	sensor: led_sensor {
+		compatible = "my,sensor";
+		gpio = <&gpioa 5 GPIO_ACTIVE_HIGH>;
+	};
+
 	leds: leds {
 		compatible = "gpio-leds";
 
