@@ -23,7 +23,7 @@ struct my_sensor_config {
 // ejecución de la aplicación
 struct my_sensor_data {
     // Estado del sensor (LED en este caso)
-    int m_state;
+    int m_count;
 };
 
 // 3) Definiciones de las funciones del driver de my_sensor.
@@ -31,12 +31,14 @@ struct my_sensor_data {
 // Función de inicialización: siempre tiene que haber una función de inicialización.
 static int my_sensor_init(const struct device *dev) {
     const struct my_sensor_config *cfg = dev->config;
+    struct my_sensor_data *data = dev->data;
 
     if (!gpio_is_ready_dt(&(cfg->m_gpio))) {
 		return -ENODEV;
 	}
     gpio_pin_configure_dt(&(cfg->m_gpio), GPIO_OUTPUT_HIGH);
-    //gpio_pin_set_dt(&(cfg->m_gpio), 1);
+
+    data->m_count = 0;
 
     return 0;
 }
@@ -63,6 +65,17 @@ static int my_sensor_channel_get(const struct device *dev, enum sensor_channel c
 
     // Se apaga el LED
     return gpio_pin_set_dt(&(cfg->m_gpio), 0);
+}
+
+// Se agrega la función que es una extension custom de la API. Se hizo siguiendo lo indicado en:
+// https://docs.zephyrproject.org/latest/kernel/drivers/index.html
+// La función setea una cuenta de la cantidad de veces que se toggleó el LED
+int my_sensor_set_count(const struct device *dev, int count) {
+    struct my_sensor_data *data = dev->data;
+
+    data->m_count = count;
+
+    return 0;
 }
 
 // 4) Mapeo de las funciones del driver con las de la API de un sensor. Si bien son varias
