@@ -1,10 +1,10 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/sensor.h> // Incluyo este porque me estoy pasando en la API de sensor
-#include <zephyr/gpio.h>
-#include <zephyr/logging.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/logging/log.h>
 
 // Header file de mi driver
-#include <my_sensor.h>
+#include <my_sensor/my_sensor.h>
 
 // Habilita el uso de las macros tipo DT_INST_ para referernciar nodos con este compatible 
 #define DT_DRV_COMPAT zephyr_my_sensor
@@ -26,17 +26,7 @@ struct my_sensor_data {
     int m_state;
 };
 
-// 3) Mapeo de las funciones del driver con las de la API de un sensor. Si bien son varias
-// las funciones que están definidas en la API para sensores de Zephyr, solamente se
-// asignan 2 que son las que se van a utilizar en este driver.
-static DEVICE_API(sensor, my_sensor_api) = {
-    // sample_fetch y channel_get pertenecen a la API para sensores que define
-    // zephyr. Acá se mapean esas funciones a las que se definen para este driver
-    .sample_fetch = my_sensor_sample_fetch;
-    .channel_get  = my_sensor_channel_get;
-};
-
-// 4) Definiciones de las funciones del driver de my_sensor.
+// 3) Definiciones de las funciones del driver de my_sensor.
 
 // Función de inicialización: siempre tiene que haber una función de inicialización.
 static int my_sensor_init(const struct device *dev) {
@@ -45,8 +35,8 @@ static int my_sensor_init(const struct device *dev) {
     if (!gpio_is_ready_dt(&(cfg->m_gpio))) {
 		return -ENODEV;
 	}
-    gpio_pin_configure_dt(&(cfg->m_gpio));
-    gpio_pin_set_dt(&(cfg->m_gpio), 1);
+    gpio_pin_configure_dt(&(cfg->m_gpio), GPIO_OUTPUT_HIGH);
+    //gpio_pin_set_dt(&(cfg->m_gpio), 1);
 
     return 0;
 }
@@ -75,10 +65,14 @@ static int my_sensor_channel_get(const struct device *dev, enum sensor_channel c
     return gpio_pin_set_dt(&(cfg->m_gpio), 0);
 }
 
-#define MY_SENSOR_DEFINE(inst)                                      \
-static struct my_sensor_data my_sensor_data##inst;               \
-static const struct my_sensor_config my_sensor_config##inst = { \
-    .m_gpio = GPIO_DT_SPEC_INST_GET(inst, gpios),                        \
+// 4) Mapeo de las funciones del driver con las de la API de un sensor. Si bien son varias
+// las funciones que están definidas en la API para sensores de Zephyr, solamente se
+// asignan 2 que son las que se van a utilizar en este driver.
+static DEVICE_API(sensor, my_sensor_api) = {
+    // sample_fetch y channel_get pertenecen a la API para sensores que define
+    // zephyr. Acá se mapean esas funciones a las que se definen para este driver
+    .sample_fetch = my_sensor_sample_fetch,
+    .channel_get  = my_sensor_channel_get
 };
 
 // inst: instance number
@@ -89,15 +83,19 @@ static const struct my_sensor_config my_sensor_config##inst = { \
 // initialization level = POST_KERNEL
 // prio = CONFIG_SENSOR_INIT_PRIORITY
 // api = my_sensor_api
-DEVICE_DT_INST_DEFINE(inst,             \
-            my_sensor_init,             \
-            NULL,                       \
-            &my_sensor_init_##inst,     \
-            &my_sensor_data_##inst,     \
-            &my_sensor_config_##inst,   \
-            POST_KERNEL, 				\
-            CONFIG_SENSOR_INIT_PRIORITY,\
-            &my_sensor_api);
+#define MY_SENSOR_DEFINE(inst)                                   \
+    static struct my_sensor_data my_sensor_data_##inst;              \
+    static const struct my_sensor_config my_sensor_config_##inst = { \
+        .m_gpio = GPIO_DT_SPEC_INST_GET(inst, gpios),                \
+    };                                                               \
+    DEVICE_DT_INST_DEFINE(inst,             \
+                my_sensor_init,             \
+                NULL,                       \
+                &my_sensor_data_##inst,     \
+                &my_sensor_config_##inst,   \
+                POST_KERNEL, 				\
+                CONFIG_SENSOR_INIT_PRIORITY,\
+                &my_sensor_api);
 
 // Esta macro declara una estructura por cada nodo del dts que usa este driver
 DT_INST_FOREACH_STATUS_OKAY(MY_SENSOR_DEFINE)
