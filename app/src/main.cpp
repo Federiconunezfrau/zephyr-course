@@ -15,60 +15,46 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 // Handler para el sub comando sensor fetch
 static int cmd_sensor_fetch(const struct shell *sh, size_t argc, char **argv) {
     
-    ARG_UNSUED(argc);
+    ARG_UNUSED(argc);
     ARG_UNUSED(argv);
 
     sensor_sample_fetch(led_sensor);
-    shell_print("LED state: ON");
+    shell_print(sh,"LED state: ON");
     return 0;
 }
 
 // Handler para el sub comando sensor read
 static int cmd_sensor_read(const struct shell *sh, size_t argc, char **argv) {
     
-    ARG_UNSUED(argc);
+    struct sensor_value dummy;
+    
+    ARG_UNUSED(argc);
     ARG_UNUSED(argv);
 
     sensor_channel_get(led_sensor, SENSOR_CHAN_ALL, &dummy);
-    shell_print("LED state: OFF");
+    shell_print(sh,"LED state: OFF");
     return 0;
 }
 
 // Handler para el sub comando sensor info
 static int cmd_sensor_info(const struct shell *sh, size_t argc, char **argv) {
     
-    ARG_UNSUED(argc);
+    ARG_UNUSED(argc);
     ARG_UNUSED(argv);
     
     bool isReady = device_is_ready(led_sensor);
-    shell_printf(sh, "Device name: %s, is ready ?: %s" isReady ? "YES", "NO" );
+    shell_print(sh, "Device name: %s, is ready ?: %s", led_sensor->name, isReady ? "YES" : "NO" );
     return 0;
 }
 
 int main(void)
 {
-    bool led_state = true;
-    struct sensor_value dummy;
-    int count = 0;
-
     if (!device_is_ready(led_sensor)) {
         return 0;
     }
 
     while (1) {
-
-        if(led_state) {
-            // Apaga el LED
-            sensor_channel_get(led_sensor, SENSOR_CHAN_ALL, &dummy);
-            count++;
-            my_sensor_set_count(led_sensor, count);
-        }
-        else {
-            // Enciende el LED
-            sensor_sample_fetch(led_sensor);
-        }
-        led_state = !led_state;        
-        LOG_INF("LED state: %s, count: %d", led_state ? "ON" : "OFF", count);
+            // Se eliminó el código del while(1) porque ahora el LED se controla desde los comandos de la shell
         k_msleep(SLEEP_TIME_MS);
     }
     return 0;
