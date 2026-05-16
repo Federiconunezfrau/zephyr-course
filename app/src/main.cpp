@@ -12,6 +12,39 @@ static const struct device *led_sensor = DEVICE_DT_GET_ANY(zephyr_my_sensor);
 
 LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
+// Handler para el sub comando sensor fetch
+static int cmd_sensor_fetch(const struct shell *sh, size_t argc, char **argv) {
+    
+    ARG_UNSUED(argc);
+    ARG_UNUSED(argv);
+
+    sensor_sample_fetch(led_sensor);
+    shell_print("LED state: ON");
+    return 0;
+}
+
+// Handler para el sub comando sensor read
+static int cmd_sensor_read(const struct shell *sh, size_t argc, char **argv) {
+    
+    ARG_UNSUED(argc);
+    ARG_UNUSED(argv);
+
+    sensor_channel_get(led_sensor, SENSOR_CHAN_ALL, &dummy);
+    shell_print("LED state: OFF");
+    return 0;
+}
+
+// Handler para el sub comando sensor info
+static int cmd_sensor_info(const struct shell *sh, size_t argc, char **argv) {
+    
+    ARG_UNSUED(argc);
+    ARG_UNUSED(argv);
+    
+    bool isReady = device_is_ready(led_sensor);
+    shell_printf(sh, "Device name: %s, is ready ?: %s" isReady ? "YES", "NO" );
+    return 0;
+}
+
 int main(void)
 {
     bool led_state = true;
@@ -45,7 +78,8 @@ int main(void)
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_sensor,
     SHELL_CMD(fetch, NULL, "Turns LED ON", cmd_sensor_fetch),
     SHELL_CMD(read , NULL, "Turns LED OFF", cmd_sensor_read),
-    SHELL_CMD(info , NULL, "Imprime el nombre del dispositivo y el ready state", cmd_sensor_info)
+    SHELL_CMD(info , NULL, "Imprime el nombre del dispositivo y el ready state", cmd_sensor_info),
+    SHELL_SUBCMD_SET_END
 );
 
 // Se registra el comando padre
