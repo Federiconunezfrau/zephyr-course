@@ -4,7 +4,7 @@
         "zephyr_version":"v4.2.0",
         "toolchain":"zephyr",
         "commit_date":"2025-07-18T18:17:09-05:00",
-        "run_date":"2026-05-25T18:38:25+00:00",
+        "run_date":"2026-05-25T20:47:38+00:00",
         "options":{
             "help":null,
             "zephyr_base":null,
@@ -12,6 +12,12 @@
             "command":"twister",
             "testsuite_root":[
                 "tests/ring_buf"
+            ],
+            "enable_coverage":true,
+            "coverage":true,
+            "coverage_basedir":"app/modules/ring_buf",
+            "coverage_platform":[
+                "native_sim"
             ],
             "platform":[
                 "native_sim"
@@ -24,7 +30,7 @@
             "arch":"posix",
             "platform":"native_sim/native",
             "path":"../../zephyr-course/tests/ring_buf",
-            "run_id":"152e8f935a3f3e1fa969063db1cd0a28",
+            "run_id":"2289d696467175e7dead6fb495ddb1e9",
             "runnable":true,
             "retries":0,
             "toolchain":"host",
@@ -33,11 +39,7 @@
             "build_time":"0.00",
             "testcases":[
                 {
-                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.peek_does_not_consume",
-                    "status":"None"
-                },
-                {
-                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.pop_null_returns_einval",
+                    "identifier":"homework.unit.ring_buf.ring_buf_push_pop.fifo_order",
                     "status":"None"
                 },
                 {
@@ -45,7 +47,19 @@
                     "status":"None"
                 },
                 {
-                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.is_full_after_fill",
+                    "identifier":"homework.unit.ring_buf.ring_buf_init.reinit_clears_state",
+                    "status":"None"
+                },
+                {
+                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.peek_does_not_consume",
+                    "status":"None"
+                },
+                {
+                    "identifier":"homework.unit.ring_buf.ring_buf_push_pop.single_push_pop",
+                    "status":"None"
+                },
+                {
+                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.pop_null_returns_einval",
                     "status":"None"
                 },
                 {
@@ -53,15 +67,7 @@
                     "status":"None"
                 },
                 {
-                    "identifier":"homework.unit.ring_buf.ring_buf_push_pop.fifo_order",
-                    "status":"None"
-                },
-                {
-                    "identifier":"homework.unit.ring_buf.ring_buf_init.reinit_clears_state",
-                    "status":"None"
-                },
-                {
-                    "identifier":"homework.unit.ring_buf.ring_buf_push_pop.single_push_pop",
+                    "identifier":"homework.unit.ring_buf.ring_buf_boundaries.is_full_after_fill",
                     "status":"None"
                 }
             ]
