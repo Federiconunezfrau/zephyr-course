@@ -47,7 +47,18 @@ ZTEST(ring_buf_init, test_reinit_clears_state)
 	 * verify the buffer is empty and count is 0.
 	 * See TEST_SPEC.md "Suite ring_buf_init" #2.
 	 */
-	ztest_test_skip();
+	
+	// Pushea un numero en el buffer
+	zassert_ok(rb_push(99), "Push of a value should succeed");
+
+	// Reinicia el buffer otra vez
+	zassert_ok(rb_init(4), "The reinit should succeed");
+
+	// Se testea que el buffer esté vacío luego del reinicio
+	zassert_true(rb_is_empty(), "The buffer should now be empty");
+
+	// Se testea que count devuelva que la cantidad de elementos es 0 en el bufer
+	zassert_equal(rb_count(), 0, "The buffer count must be 0");
 }
 
 /*
