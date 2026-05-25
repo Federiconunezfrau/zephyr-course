@@ -174,7 +174,9 @@ ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
 	/* TODO(l8-task1): rb_pop(NULL) -> -EINVAL.
 	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #2.
 	 */
-	ztest_test_skip();
+	
+	// Se intenta almacenar el valor poppeado en la dirección de un NULL pointer, debería retornar -EINVAL
+	zassert_equal(rb_pop(NULL), -EINVAL, "Popping to a NULL pointer should return -EINVAL");
 }
 
 ZTEST(ring_buf_boundaries, test_is_full_after_fill)
