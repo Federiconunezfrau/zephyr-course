@@ -1,0 +1,45 @@
+cmake:
+  application:
+    configuration-dir: '/home/federico/Documents/Curso_Zephyr/taskworkspace/zephyr-course/tests/ring_buf'
+    source-dir: '/home/federico/Documents/Curso_Zephyr/taskworkspace/zephyr-course/tests/ring_buf'
+  board:
+    name: 'native_sim'
+    path:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/boards/native/native_sim'
+    qualifiers: 'native'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/bindings'
+    files:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/boards/native/native_sim/native_sim.dts'
+    include-dirs:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/modules/hal/stm32/dts'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/include'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/include/zephyr'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/common'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/vendor'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/rx'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/x86'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/xtensa'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/sparc'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/riscv'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/posix'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/arm64'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/arm'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts/arc'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/dts'
+  kconfig:
+    files:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr/boards/native/native_sim/native_sim_defconfig'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/zephyr-course/tests/ring_buf/prj.conf'
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/zephyr-course/twister-out/native_sim_native/host/homework.unit.ring_buf/zephyr/misc/generated/extra_kconfig_options.conf'
+    user-files:
+     - '/home/federico/Documents/Curso_Zephyr/taskworkspace/zephyr-course/tests/ring_buf/prj.conf'
+  toolchain:
+    name: 'host'
+    path: ''
+  zephyr:
+    version: '4.2.0'
+    zephyr-base: '/home/federico/Documents/Curso_Zephyr/taskworkspace/deps/zephyr'
+version: '0.1.0'
