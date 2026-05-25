@@ -97,7 +97,21 @@ ZTEST(ring_buf_push_pop, test_fifo_order)
 	 * and verify the values come out as 1, 2, 3 in that order.
 	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #2.
 	 */
-	ztest_test_skip();
+	int i;
+	int v;
+
+	// Se testea que se puedan pushear 3 números consecutivos
+	for(i = 1; i < 3+1; i++) {
+		zassert_ok(rb_push(i), "Push of value %d should succeed", i);
+
+	// Se popean los 3 valores del buffer y se testea que sean correctos
+	for(i = 3; i > 1-1; i--) {
+		zassert_ok(rb_pop(&v), "Pop of value should succeed");
+		zassert_equal(v, i, "Pop value should be %d", i);
+	}
+
+	// Finalmente, se testea que el buffer esté vacío luego de hacer los pops
+	zassert_true(rb_is_empty(), "The buffer should now be empty");
 }
 
 ZTEST(ring_buf_push_pop, test_push_full_returns_enospc)
