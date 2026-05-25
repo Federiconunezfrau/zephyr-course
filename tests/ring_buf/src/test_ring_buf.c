@@ -49,7 +49,7 @@ ZTEST(ring_buf_init, test_reinit_clears_state)
 	 */
 	
 	// Pushea un numero en el buffer
-	zassert_ok(rb_push(99), "Push of a value should succeed");
+	zassert_ok(rb_push(99), "Push of a single value should succeed");
 
 	// Reinicia el buffer otra vez
 	zassert_ok(rb_init(4), "The reinit should succeed");
@@ -75,7 +75,20 @@ ZTEST(ring_buf_push_pop, test_single_push_pop)
 	/* TODO(l8-task1): rb_push(42), rb_pop(&v) -> v == 42, buffer empty after.
 	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #1.
 	 */
-	ztest_test_skip();
+
+	int v;
+
+	// Se pushea un valor, se verifica que el push sea exitoso
+	zassert_ok(rb_push(42), "Push of a single value should succeed");
+
+	// Se popea un valor del buffer, se verifica que sea exitoso
+	zassert_ok(rb_pop(&v), "Pop of a single value should succeed");
+
+	// Se testea que el valor popeado coincida con el valor pusheado
+	zassert_equal(v, 42, "Pop value should be the same as pushed value");
+
+	// Se testea que el buffer quedó vacío después de popear el único valor pusheado
+	zassert_true(rb_is_empty(), "The buffer should now be empty");
 }
 
 ZTEST(ring_buf_push_pop, test_fifo_order)
