@@ -120,7 +120,19 @@ ZTEST(ring_buf_push_pop, test_push_full_returns_enospc)
 	 * one more value -> -ENOSPC.
 	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #3.
 	 */
-	ztest_test_skip();
+	
+	int i;
+
+	// Se pusehan 4 valores en el buffer para llenarlo
+	for(i = 1; i < 4+1; i++) {
+		zassert_ok(rb_push(i), "Push of value %d should succeed", i);
+	}
+
+	// Se testea que el buffer está lleno
+	zassert_true(rb_is_full(), "Buffer should be full");
+
+	// Se intenta pushear un valor más y debería devolver un error
+	zassert_equal(rb_push(99), -ENOSPC, "The push should be rejected as it is full by now");
 }
 
 /*
