@@ -150,7 +150,23 @@ ZTEST(ring_buf_boundaries, test_peek_does_not_consume)
 	 * -> v == 7; rb_count() still == 1.
 	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #1.
 	 */
-	ztest_test_skip();
+
+	int i;
+	int v;
+	
+	// Se pushea un valor, se verifica que el push sea exitoso
+	zassert_ok(rb_push(7), "Push of a single value should succeed");
+
+	for(i = 0; i < 2; i++) {
+		// Se hace un peek del buffer, se verifica que sea exitoso
+		zassert_ok(rb_peek(&v), "Peek number %d should succeed", i);
+
+		// El valor debe ser el mismo que fue pusheado antes
+		zassert_equal(v, 7, "Peek number %d: value should be 7, but it is %d", i, v);
+	}
+
+	// Se verifica que haber hecho peek no popea el elemento del buffer
+	zassert_equal(rb_count(), 1, "Peek should not pop elements of the buffer");
 }
 
 ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
